@@ -33,9 +33,14 @@
 
 <p>SimpleSave is a super simple web server written in python.<br>
 It is used for storing key-value pairs on strings.
-It works like this:</p>
+Storing a key-value pair:</p>
 
-<pre><code>   wget http://localhost/?q=key
+<pre><code>   wget http://localhost/?k=key&amp;v=value
+</code></pre>
+
+<p>Retrieving a previously stored value:</p>
+
+<pre><code>   wget http://localhost/?k=key
 </code></pre>
 
 <h3>
