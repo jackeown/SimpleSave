@@ -1,15 +1,28 @@
 import socket
 import re
 import urllib
+import pickle
+
 values = {}
+HOST, PORT, REQUEST_SIZE, DICTIONARY_FILE = '', 8888, 4096, "SimpleSave.dat"
 
 def main():
-    HOST, PORT, REQUEST_SIZE = '', 8888, 4096
-
     listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     listen_socket.bind((HOST, PORT))
     listen_socket.listen(1)
+    
+    try:
+        with open(DICTIONARY_FILE, 'rb') as handle:
+            try:
+                values = pickle.loads(handle.read())
+            except:
+                values={}
+            handle.close()
+    except:
+        values={}
+    
+    #print values ??????????????????????????????????????????????????
     while True:
         client_connection, client_address = listen_socket.accept()
         request = client_connection.recv(REQUEST_SIZE)
@@ -37,6 +50,10 @@ def handleRequest(request):
 
 def setValue(key,value):
     values[key]=value
+    with open(DICTIONARY_FILE, 'wb') as handle:
+        pickle.dump(values,handle)
+        handle.close()
+    
 def getValue(key):
     if key in values:
         return values[key]
