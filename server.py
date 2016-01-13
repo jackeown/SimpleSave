@@ -15,14 +15,15 @@ def main():
     try:
         with open(DICTIONARY_FILE, 'rb') as handle:
             try:
+                global values
                 values = pickle.loads(handle.read())
             except:
-                values={}
+                pass
             handle.close()
     except:
-        values={}
+        pass
     
-    #print values ??????????????????????????????????????????????????
+    print values
     while True:
         client_connection, client_address = listen_socket.accept()
         request = client_connection.recv(REQUEST_SIZE)
@@ -55,6 +56,7 @@ def setValue(key,value):
         handle.close()
     
 def getValue(key):
+    print values
     if key in values:
         return values[key]
     else:
